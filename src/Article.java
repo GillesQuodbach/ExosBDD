@@ -3,17 +3,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 
-
-
-
 public class Article {
 	int IdArticle;
 	String Description;
 	String Brand;
 	double UnitaryPrice;
 	int IdCategory;
-	
-
 	
 	public Article(int IdArticle, String Description, String Brand,double UnitaryPrice, int IdCategory) {
 		this.IdArticle = IdArticle;
@@ -28,7 +23,6 @@ public class Article {
 		this.UnitaryPrice = UnitaryPrice;
 		this.IdCategory = IdCategory;
 	}
-
 
 	public int getIdArticle() {
 		return IdArticle;
@@ -75,7 +69,5 @@ public class Article {
 		return "Article [IdArticle=" + IdArticle + ", Description=" + Description + ", Brand=" + Brand
 				+ ", UnitaryPrice=" + UnitaryPrice + "]";
 	}
-
-
 
 }
