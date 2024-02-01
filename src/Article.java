@@ -15,6 +15,7 @@ public class Article {
 		this.Description = Description;
 		this.Brand = Brand;
 		this.UnitaryPrice = UnitaryPrice;
+		this.IdCategory = IdCategory;
 	}
 	
 	public Article(String Description, String Brand,double UnitaryPrice, int IdCategory) {
@@ -67,7 +68,7 @@ public class Article {
 	@Override
 	public String toString() {
 		return "Article [IdArticle=" + IdArticle + ", Description=" + Description + ", Brand=" + Brand
-				+ ", UnitaryPrice=" + UnitaryPrice + "]";
+				+ ", UnitaryPrice=" + UnitaryPrice + ", IdCategory=" + IdCategory+ "]";
 	}
 
 }

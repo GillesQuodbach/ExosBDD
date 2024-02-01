@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class TestJdbc {
 			e.printStackTrace();
 		}
 	}
-
+//	createArticle(new Article("Encore Souris", "Apple", 150.0, 1));
 	// Méthode d'update
 	public static void updateArticle(int articleId, String Description, String Brand, double UnitaryPrice,
 			int IdCategory) {
@@ -94,13 +95,14 @@ public class TestJdbc {
 						String rsMarque = resultSet.getString(3);
 						double rsPrixUnitaire = resultSet.getDouble(4);
 						int rsIdCategory = resultSet.getInt(5);
+						System.out.println();
 						articles.add((new Article(rsIdUser, rsDescription, rsMarque, rsPrixUnitaire, rsIdCategory)));
 					}
 				}
 			}
 			for (Article a : articles) {
 				System.out.println(a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - "
-						+ a.getUnitaryPrice() + " - " + a.getBrand());
+						+ a.getUnitaryPrice() + " - " +a.getIdCategory());
 			}
 
 		} catch (Exception e) {
@@ -118,7 +120,9 @@ public class TestJdbc {
 		try (Connection connection = DriverManager.getConnection(url, login, password)) { // connection de java.sql
 
 			try (Statement statement = connection.createStatement()) {
+				
 				try (ResultSet resultSet = statement.executeQuery(strSql)) { // resultSet de java.sql
+					
 					while (resultSet.next()) {
 						int rsIdUser = resultSet.getInt(1); // soit index de 1 a n soit le nom de la colonne
 						String rsDescription = resultSet.getString(2);
@@ -131,7 +135,7 @@ public class TestJdbc {
 			}
 			for (Article a : articles) {
 				System.out.println(a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - "
-						+ a.getUnitaryPrice() + " - " + a.getBrand());
+						+ a.getUnitaryPrice() + " - " + a.getIdCategory());
 			}
 
 		} catch (Exception e) {
