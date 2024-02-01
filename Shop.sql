@@ -123,5 +123,24 @@ SELECT * FROM T_Articles;
 -- Trouver la requête qui permet d’obtenir le résultat suivant :
 SELECT IdArticle, T_Articles.Description, Brand, UnitaryPrice, CatName from T_Articles inner join t_categories where t_articles.idcategory = t_categories.idcategory ORDER BY UnitaryPrice ASC;
 
+-- 6 + 7 ------------------------------
+-- Création de la table T_Users
+
+CREATE TABLE T_Users (
+	IdUser				int(4)		PRIMARY KEY AUTO_INCREMENT,
+	Login				varchar(20)			NOT NULL,
+	Password			varchar(20)			NOT NULL
+) ENGINE = InnoDB;
+
+INSERT INTO T_Users ( Login, Password ) VALUES (  'Georges', "enfants");
+INSERT INTO T_Users ( Login, Password ) VALUES ( 'Louis', "enfants2");
+INSERT INTO T_Users ( Login, Password ) VALUES (  'Mesrine', "argent");
+
+
+
+
+
+
+
 
 
