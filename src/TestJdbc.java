@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,10 +14,11 @@ public class TestJdbc {
 	public static ArrayList<Article> articles = new ArrayList<Article>();
 
 	// Méthode d'insertion
-	public static void createArticle(Article obj) {
-		String url = "jdbc:mariadb://localhost:3306/shop";
-		String login = "root";
-		String password = "fms2024";
+	public static void createArticle(Article obj) throws IOException {
+		Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+		String url = prop.getProperty("url");
+		String login = prop.getProperty("login");
+		String password = prop.getProperty("password");
 		String str = "INSERT INTO T_Articles (Description, Brand, UnitaryPrice, IdCategory) VALUES (?,?,?,?);";
 		try (Connection connection = DriverManager.getConnection(url, login, password)) {
 			try (PreparedStatement ps = connection.prepareStatement(str)) {
@@ -31,13 +34,15 @@ public class TestJdbc {
 			e.printStackTrace();
 		}
 	}
+
 //	createArticle(new Article("Encore Souris", "Apple", 150.0, 1));
 	// Méthode d'update
 	public static void updateArticle(int articleId, String Description, String Brand, double UnitaryPrice,
-			int IdCategory) {
-		String url = "jdbc:mariadb://localhost:3306/shop";
-		String login = "root";
-		String password = "fms2024";
+			int IdCategory) throws IOException {
+		Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+		String url = prop.getProperty("url");
+		String login = prop.getProperty("login");
+		String password = prop.getProperty("password");
 		String str = "UPDATE T_Articles SET Description=? ,Brand=?, UnitaryPrice=?, IdCategory=? where IdArticle=?";
 //		for(Article article : articles) {
 //			if (article.getIdArticle() == articleId) {
@@ -61,10 +66,11 @@ public class TestJdbc {
 	}
 
 	// Méthode de suppression
-	public static void deleteArticle(int articleId) {
-		String url = "jdbc:mariadb://localhost:3306/shop";
-		String login = "root";
-		String password = "fms2024";
+	public static void deleteArticle(int articleId) throws IOException {
+		Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+		String url = prop.getProperty("url");
+		String login = prop.getProperty("login");
+		String password = prop.getProperty("password");
 		String str = "DELETE FROM T_Articles where IdArticle=?";
 
 		try (Connection connection = DriverManager.getConnection(url, login, password)) {
@@ -80,10 +86,11 @@ public class TestJdbc {
 	}
 
 	// Méthode de visualisation de tout les articles
-	public static void showAllArticles() {
-		String url = "jdbc:mariadb://localhost:3306/shop";
-		String login = "root";
-		String password = "fms2024";
+	public static void showAllArticles() throws IOException {
+		Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+		String url = prop.getProperty("url");
+		String login = prop.getProperty("login");
+		String password = prop.getProperty("password");
 
 		try (Connection connection = DriverManager.getConnection(url, login, password)) { // connection de java.sql
 			String strSql = "SELECT * FROM T_Articles"; // une fois connecté, réalisation d'une requête
@@ -102,7 +109,7 @@ public class TestJdbc {
 			}
 			for (Article a : articles) {
 				System.out.println(a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - "
-						+ a.getUnitaryPrice() + " - " +a.getIdCategory());
+						+ a.getUnitaryPrice() + " - " + a.getIdCategory());
 			}
 
 		} catch (Exception e) {
@@ -111,18 +118,15 @@ public class TestJdbc {
 	}
 
 	// Méthode de visualisation de tout les articles
-	public static void showArticles(int idArticle) {
-		String url = "jdbc:mariadb://localhost:3306/shop";
-		String login = "root";
-		String password = "fms2024";
-		String strSql = "SELECT * FROM T_Articles where IdArticle="+idArticle; // une fois connecté, réalisation d'une requête
-
+	public static void showArticles(int idArticle) throws IOException {
+		Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+		String url = prop.getProperty("url");
+		String login = prop.getProperty("login");
+		String password = prop.getProperty("password");
+		String strSql = "SELECT * FROM T_Articles where IdArticle=" + idArticle; // une fois connecté, réalisation d'une requête
 		try (Connection connection = DriverManager.getConnection(url, login, password)) { // connection de java.sql
-
 			try (Statement statement = connection.createStatement()) {
-				
 				try (ResultSet resultSet = statement.executeQuery(strSql)) { // resultSet de java.sql
-					
 					while (resultSet.next()) {
 						int rsIdUser = resultSet.getInt(1); // soit index de 1 a n soit le nom de la colonne
 						String rsDescription = resultSet.getString(2);
@@ -145,19 +149,16 @@ public class TestJdbc {
 
 	public static void main(String[] args) throws Exception {
 
-//		createPrepared(new Article("Encore Souris", "Apple", 150.0, 1));
-
 		try {
 			// Enregistre la class auprès du driver manager = charge le pilote
-			Class.forName("org.mariadb.jdbc.Driver");
+			Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+			String driver =  prop.getProperty("driverClass");
+			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		showAllArticles();
+//		showAllArticles();
 		showArticles(12);
-//		int articleId, String Description, String Brand, double UnitaryPrice, int IdCategory
-//		updatePrepared(23, "SuperNintendo", "NINTENDO", 1000, 3);
-//		deletePrepared(21);
-//		createArticle(new Article("Encore Souris", "Apple", 150.0, 1));
+
 	}
 }

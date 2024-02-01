@@ -6,10 +6,11 @@ import java.util.Properties;
 public class CreateConfigFile {
 
 	public static void main(String[] args) throws IOException {
-	Properties prop = readPropertiesFile("credentials.properties");
+	Properties prop = readPropertiesFile("src/credentials.properties");
 	System.out.println("driverClass=" + prop.getProperty("driverClass"));
 	System.out.println("url=" + prop.getProperty("url"));
-	System.out.println();
+	System.out.println("login=" + prop.getProperty("login"));
+	System.out.println("password=" + prop.getProperty("password"));
 	}
 
 	public static Properties readPropertiesFile(String fileName) throws IOException{
