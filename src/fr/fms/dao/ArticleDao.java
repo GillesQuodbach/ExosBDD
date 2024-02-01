@@ -9,12 +9,33 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 import fr.fms.entities.TestJdbc;
+import fr.fms.entities.User;
 import fr.fms.entities.Article;
 import fr.fms.entities.CreateConfigFile;
 
 
 public class ArticleDao implements Dao<Article> {
+	
+	private static volatile ArticleDao instance;
+
+
+	//Constructeur privé
+	private ArticleDao() {}
+	
+	//Méthode pour obtenir l'instance privée
+	public static ArticleDao getInstance() {
+		if(instance == null) {
+			synchronized(ArticleDao.class) {
+				if(instance == null) {
+					instance = new ArticleDao();
+				}
+			}
+		}
+		return instance;
+	}
+	
 	ArrayList<Article> articlesList = TestJdbc.getArticlesWithOutDuplicate();
+	
 	
 	
 	@Override

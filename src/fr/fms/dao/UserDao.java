@@ -14,7 +14,27 @@ import fr.fms.entities.TestJdbc;
 import fr.fms.entities.User;
 
 public class UserDao implements Dao<User>{
-	ArrayList<User> usersList = TestJdbc.getUsersWout();
+	
+	private static volatile UserDao instance;
+
+
+	//Constructeur privé
+	private UserDao() {}
+	
+	//Méthode pour obtenir l'instance privée
+	public static UserDao getInstance() {
+		if(instance == null) {
+			synchronized(UserDao.class) {
+				if(instance == null) {
+					instance = new UserDao();
+				}
+			}
+		}
+		return instance;
+	}
+	
+	
+	ArrayList<User> usersList = TestJdbc.getUsersWithOutDuplicate();
 	@Override
 	public void create(User obj) {
 		try {

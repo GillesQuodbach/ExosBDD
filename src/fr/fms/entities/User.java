@@ -1,10 +1,12 @@
 package fr.fms.entities;
 
 public class User {
-	int IdUser;
-	String Login;
-	String Password;
+	
+	private int IdUser;
+	private String Login;
+	private String Password;
 
+	
 	public User(int IdUser, String Login, String Password) {
 		this.IdUser = IdUser;
 		this.Login = Login;

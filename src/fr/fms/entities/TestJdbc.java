@@ -59,9 +59,9 @@ public class TestJdbc {
 	public static void main(String[] args) throws Exception {
 		
 
-		ArticleDao articleDao = new ArticleDao();
+		ArticleDao articleDao = ArticleDao.getInstance();
 
-		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.getInstance();
 
 //		showAllArticles();
 //	articleDao.update(new Article(26, "PalWorld", "Chinois", 150, 3));
