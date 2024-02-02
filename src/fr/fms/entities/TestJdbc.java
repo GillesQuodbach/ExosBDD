@@ -73,7 +73,7 @@ public class TestJdbc {
 			while (true) {
 				try {
 					System.out.println("************************************");
-					System.out.println("1:ajouter article - 2: supprimer article - 3 voir panier - 4:payer - 6:sortir");
+					System.out.println("1:ajouter article - 2: supprimer article - 3 voir panier - 4:payer - 5:sortir");
 					int customerChoice = Integer.parseInt(scan.nextLine());
 
 					switch (customerChoice) {
@@ -113,13 +113,21 @@ public class TestJdbc {
 						System.out.println("Montant total:" + total + "€");
 						break;
 					case 4:
-
+						double bill = 0;
+						System.out.println("---------------------------------------------");
+						System.out.println("Récapitulatif de votre commande: ");
+						System.out.println("---------------------------------------------");
+						for (Article article : userCart) {
+							System.out.println("Id: " + article.getIdArticle() + " - " + article.getDescription()
+									+ " - " + article.getBrand() + " - " + article.getUnitaryPrice() + "€");
+							bill += article.getUnitaryPrice();
+						}
+						System.out.println("---------------------------------------------");
+						System.out.println("Montant total à payer : " + bill + "€");
+						System.out.println("---------------------------------------------");
 						break;
 					case 5:
-
-						break;
-					case 6:
-						System.out.println("Sortie");
+						System.out.println("A bientôt");
 						break;
 					default:
 
