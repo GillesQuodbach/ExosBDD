@@ -3,6 +3,7 @@ package fr.fms.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import fr.fms.dao.ArticleDao;
@@ -24,20 +25,15 @@ public class TestJdbc {
 	 */
 	public static ArrayList<Article> articles = new ArrayList<Article>();
 	public static ArrayList<User> users = new ArrayList<User>();
-	
-	
+
 	/**
 	 * Liste sans doublons
 	 */
 	public static ArrayList<Article> articlesWithOutDuplicate = (ArrayList<Article>) articles.stream()
-			.collect(Collectors.toSet())
-			.stream()
-			.collect(Collectors.toList());	
+			.collect(Collectors.toSet()).stream().collect(Collectors.toList());
 
-	public static ArrayList<User> usersWithOutDuplicate = (ArrayList<User>) users.stream()
-			.collect(Collectors.toSet())
-			.stream()
-			.collect(Collectors.toList());	
+	public static ArrayList<User> usersWithOutDuplicate = (ArrayList<User>) users.stream().collect(Collectors.toSet())
+			.stream().collect(Collectors.toList());
 
 	/**
 	 * Méthode de récupération des listes
@@ -49,30 +45,51 @@ public class TestJdbc {
 	public static ArrayList<User> getUsers() {
 		return users;
 	}
-	
-	public static ArrayList<User> getUsersWithOutDuplicate(){
+
+	public static ArrayList<User> getUsersWithOutDuplicate() {
 		return usersWithOutDuplicate;
 	}
-	public static ArrayList<Article> getArticlesWithOutDuplicate(){
+
+	public static ArrayList<Article> getArticlesWithOutDuplicate() {
 		return articlesWithOutDuplicate;
 	}
+
 	public static void main(String[] args) throws Exception {
-		
+		String userLogin = "";
+		String userPassword = "";
+		boolean userFounded = false;
+
+		Scanner scan = new Scanner(System.in);
 
 		ArticleDao articleDao = ArticleDao.getInstance();
-
 		UserDao userDao = UserDao.getInstance();
 
-//		showAllArticles();
-//	articleDao.update(new Article(26, "PalWorld", "Chinois", 150, 3));
-//	articleDao.read(30);
-//		articleDao.delete(24);
-//	userDao.create(new User("Pierre", "Loup"));
-// userDao.update(new User(4, "Pierro", "Caniche"));
-//userDao.read(4);
-//userDao.delete(6);
-userDao.readAll();
+		// Rempli la tableau de users
+		userDao.readAll();
+		
+		// Rempli le tableau d'articles
+		articleDao.readAll();
+		ArrayList<User> allUsers = getUsersWithOutDuplicate();
 
-
+System.out.println("Bienvenue sur mon App");
+System.out.println("Saisissez votre login:");
+userLogin = scan.nextLine();
+//userLogin = "Pierro";
+System.out.println("Saisissez votre password:");
+userPassword = scan.nextLine();
+//userPassword = "Caniche";
+//Vérifier dans le tableau des utilisateurs si présent
+for (User user : allUsers) {
+	if((userLogin.equals(user.getLogin())&&(userPassword.equals(user.getPassword()))))
+	userFounded = true;
 }
+
+if (userFounded) {
+	System.out.println("*****LISTE ARTICLES*****");
+	articleDao.readAll();
+}else {
+	System.out.println("Vos identifiants sont incorrects");
+}
+
+	}
 }

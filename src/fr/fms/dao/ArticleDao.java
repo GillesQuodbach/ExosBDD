@@ -165,7 +165,6 @@ public class ArticleDao implements Dao<Article> {
 						String rsMarque = resultSet.getString(3);
 						double rsPrixUnitaire = resultSet.getDouble(4);
 						int rsIdCategory = resultSet.getInt(5);
-						System.out.println();
 						articlesList.add((new Article(rsIdUser, rsDescription, rsMarque, rsPrixUnitaire, rsIdCategory)));
 					}
 				}

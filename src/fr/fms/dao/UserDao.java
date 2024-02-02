@@ -153,8 +153,6 @@ public class UserDao implements Dao<User>{
 							int rsIdUser = resultSet.getInt(1); // soit index de 1 a n soit le nom de la colonne
 							String rsLogin = resultSet.getString(2);
 							String rsPassword = resultSet.getString(3);
-
-							System.out.println();
 							usersList.add((new User(rsIdUser, rsLogin, rsPassword)));
 						}
 					}
