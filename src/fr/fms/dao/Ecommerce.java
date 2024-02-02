@@ -8,7 +8,9 @@ import fr.fms.entities.Article;
 public interface Ecommerce<T> {
 
 	public void addItem(Article obj);
+
 	public void removeItem(Article obj);
+
 	public ArrayList<Article> displayCart();
 
 }

@@ -13,7 +13,7 @@ public class Article {
 	private double UnitaryPrice;
 	private int IdCategory;
 
-	public  Article(int IdArticle, String Description, String Brand, double UnitaryPrice, int IdCategory) {
+	public Article(int IdArticle, String Description, String Brand, double UnitaryPrice, int IdCategory) {
 		this.IdArticle = IdArticle;
 		this.Description = Description;
 		this.Brand = Brand;

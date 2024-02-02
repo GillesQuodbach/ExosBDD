@@ -15,34 +15,32 @@ import fr.fms.entities.CreateConfigFile;
 import fr.fms.entities.TestJdbc;
 import fr.fms.entities.User;
 
-public class UserDao implements Dao<User>{
-	
+public class UserDao implements Dao<User> {
+
 	private static volatile UserDao instance;
 	private ArrayList<User> usersList = new ArrayList<>();
 
-
-
-	//Constructeur privé
+	// Constructeur privé
 	private UserDao() {
 		retrieveUsersListFromDataBase();
 	}
-	
-	public ArrayList<User> getUsersList(){
+
+	public ArrayList<User> getUsersList() {
 		return usersList;
 	}
-	
-	//Méthode pour obtenir l'instance privée
+
+	// Méthode pour obtenir l'instance privée
 	public static UserDao getInstance() {
-		if(instance == null) {
-			synchronized(UserDao.class) {
-				if(instance == null) {
+		if (instance == null) {
+			synchronized (UserDao.class) {
+				if (instance == null) {
 					instance = new UserDao();
 				}
 			}
 		}
 		return instance;
 	}
-	
+
 	public void retrieveUsersListFromDataBase() {
 		try {
 			Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
@@ -63,9 +61,9 @@ public class UserDao implements Dao<User>{
 					}
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -85,10 +83,10 @@ public class UserDao implements Dao<User>{
 					}
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -113,13 +111,13 @@ public class UserDao implements Dao<User>{
 				for (User a : usersList) {
 					System.out.println(a.getIdUser() + " - " + a.getLogin() + " - " + a.getPassword());
 				}
-				
+
 			}
-			} catch (Exception e) {
-				System.out.println("Oups, une erreur s'est produite !");
-				e.printStackTrace();
-			}
-		
+		} catch (Exception e) {
+			System.out.println("Oups, une erreur s'est produite !");
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -140,11 +138,11 @@ public class UserDao implements Dao<User>{
 					}
 				}
 			}
-			} catch (Exception e) {
-				System.out.println("Une erreur s'est produite !");
-				e.printStackTrace();
-			}
-			return true;
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite !");
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
@@ -164,10 +162,10 @@ public class UserDao implements Dao<User>{
 					}
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
@@ -194,10 +192,10 @@ public class UserDao implements Dao<User>{
 					System.out.println(a.getIdUser() + " - " + a.getLogin() + " - " + a.getPassword());
 				}
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
