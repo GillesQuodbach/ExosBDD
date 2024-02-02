@@ -132,9 +132,9 @@ CREATE TABLE T_Users (
 	Password			varchar(20)			NOT NULL
 ) ENGINE = InnoDB;
 
-INSERT INTO T_Users ( Login, Password ) VALUES (  'Georges', 'enfants');
-INSERT INTO T_Users ( Login, Password ) VALUES ( 'Louis', 'enfants2');
-INSERT INTO T_Users ( Login, Password ) VALUES (  'Mesrine', 'argent');
+INSERT INTO T_Users ( Login, Password ) VALUES (  'Mickey', 'souris');
+INSERT INTO T_Users ( Login, Password ) VALUES ( 'Donald', 'canard');
+INSERT INTO T_Users ( Login, Password ) VALUES (  'Pluto', 'chien');
 
 
 CREATE USER 'gilles'@'localhost' IDENTIFIED BY 'gillou64';

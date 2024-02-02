@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import fr.fms.entities.Article;
 import fr.fms.entities.CreateConfigFile;
@@ -16,10 +18,18 @@ import fr.fms.entities.User;
 public class UserDao implements Dao<User>{
 	
 	private static volatile UserDao instance;
+	private ArrayList<User> usersList = new ArrayList<>();
+
 
 
 	//Constructeur privé
-	private UserDao() {}
+	private UserDao() {
+		retrieveUsersListFromDataBase();
+	}
+	
+	public ArrayList<User> getUsersList(){
+		return usersList;
+	}
 	
 	//Méthode pour obtenir l'instance privée
 	public static UserDao getInstance() {
@@ -33,8 +43,31 @@ public class UserDao implements Dao<User>{
 		return instance;
 	}
 	
-	
-	ArrayList<User> usersList = TestJdbc.getUsersWithOutDuplicate();
+	public void retrieveUsersListFromDataBase() {
+		try {
+			Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+			String url = prop.getProperty("url");
+			String login = prop.getProperty("login");
+			String password = prop.getProperty("password");
+
+			try (Connection connection = DriverManager.getConnection(url, login, password)) { // connection de java.sql
+				String strSql = "SELECT * FROM T_Users"; // une fois connecté, réalisation d'une requête
+				try (Statement statement = connection.createStatement()) {
+					try (ResultSet resultSet = statement.executeQuery(strSql)) { // resultSet de java.sql
+						while (resultSet.next()) {
+							int rsIdUser = resultSet.getInt(1); // soit index de 1 a n soit le nom de la colonne
+							String rsLogin = resultSet.getString(2);
+							String rsPassword = resultSet.getString(3);
+							usersList.add((new User(rsIdUser, rsLogin, rsPassword)));
+						}
+					}
+				}
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+
 	@Override
 	public void create(User obj) {
 		try {

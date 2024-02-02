@@ -7,7 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import fr.fms.entities.TestJdbc;
 import fr.fms.entities.User;
 import fr.fms.entities.Article;
@@ -15,12 +19,15 @@ import fr.fms.entities.CreateConfigFile;
 
 
 public class ArticleDao implements Dao<Article> {
-	
+
 	private static volatile ArticleDao instance;
+	private ArrayList<Article> articlesList = new ArrayList<>();
 
 
 	//Constructeur privé
-	private ArticleDao() {}
+	private ArticleDao() {
+		retrieveArticlesListFromDataBase();
+	}
 	
 	//Méthode pour obtenir l'instance privée
 	public static ArticleDao getInstance() {
@@ -34,9 +41,40 @@ public class ArticleDao implements Dao<Article> {
 		return instance;
 	}
 	
-	ArrayList<Article> articlesList = TestJdbc.getArticlesWithOutDuplicate();
+//	ArrayList<Article> articlesList = TestJdbc.getArticlesWithOutDuplicate();
 	
 	
+	
+	public void retrieveArticlesListFromDataBase() {
+		try {
+			Properties prop = CreateConfigFile.readPropertiesFile("src/credentials.properties");
+			String url = prop.getProperty("url");
+			String login = prop.getProperty("login");
+			String password = prop.getProperty("password");
+
+			try (Connection connection = DriverManager.getConnection(url, login, password)) { // connection de java.sql
+				String strSql = "SELECT * FROM T_Articles"; // une fois connecté, réalisation d'une requête
+				try (Statement statement = connection.createStatement()) {
+					try (ResultSet resultSet = statement.executeQuery(strSql)) { // resultSet de java.sql
+						while (resultSet.next()) {
+							int rsIdUser = resultSet.getInt(1); // soit index de 1 a n soit le nom de la colonne
+							String rsDescription = resultSet.getString(2);
+							String rsMarque = resultSet.getString(3);
+							double rsPrixUnitaire = resultSet.getDouble(4);
+							int rsIdCategory = resultSet.getInt(5);
+							articlesList.add((new Article(rsIdUser, rsDescription, rsMarque, rsPrixUnitaire, rsIdCategory)));
+						}
+					}
+				}
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public ArrayList<Article> getArticlesList(){
+		return articlesList;
+	}
 	
 	@Override
 	public void create(Article obj) {

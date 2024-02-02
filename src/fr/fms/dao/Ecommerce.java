@@ -1,8 +1,14 @@
 package fr.fms.dao;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import fr.fms.entities.Article;
+
 public interface Ecommerce<T> {
 
-	public void addItem(T obj);
-	public void removeItem(T obj);
-	public void displayCart(T obj);
+	public void addItem(Article obj);
+	public void removeItem(Article obj);
+	public ArrayList<Article> displayCart();
+
 }
